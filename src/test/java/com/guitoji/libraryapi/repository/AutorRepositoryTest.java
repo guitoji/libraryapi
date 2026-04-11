@@ -21,9 +21,9 @@ public class AutorRepositoryTest {
     @Test
     public void salvarTest() {
         Autor autor = new Autor();
-        autor.setNome("David Sheel");
-        autor.setNacionalidade("Americano");
-        autor.setDataNascimento(LocalDate.of(1978, 6, 14));
+        autor.setNome("John Ronald Reuel Tolkien");
+        autor.setNacionalidade("Britânico");
+        autor.setDataNascimento(LocalDate.of(1892, 1, 3));
 
         var autorSalvo = repository.save(autor);
         System.out.println(autorSalvo);
@@ -59,7 +59,7 @@ public class AutorRepositoryTest {
 
     @Test
     public void deletePorIdTest() {
-        var id = UUID.fromString("fa679134-7d4c-479b-9018-15691ec02d02");
+        var id = UUID.fromString("368d1174-fba4-474e-a018-97d3f6a5052e");
 
         Optional<Autor> possivelAutor = repository.findById(id);
 
