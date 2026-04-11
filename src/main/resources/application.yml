@@ -9,5 +9,5 @@ spring:
   jpa:
     show-sql: true
 #    Comandos ddl geralmente não são usados em produção! Existe uma preferência pelo uso de script SQL.
-#    hibernate:
-#      ddl-auto: update
+    hibernate:
+      ddl-auto: update
