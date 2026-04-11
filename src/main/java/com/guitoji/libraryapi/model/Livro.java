@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "livro")
-@Data 
+@Data // Lombok annotation que gera getters, setters e entre outros
 public class Livro {
 
     @Id

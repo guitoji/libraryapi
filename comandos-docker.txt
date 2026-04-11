@@ -1,4 +1,4 @@
-#Criar conexão entre a imagens
+#Criar conexão entre as imagens
 docker create network library-network
 
 #Rodar container postgres na versão 18.3
