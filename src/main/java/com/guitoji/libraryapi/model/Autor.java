@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "autor", schema = "public") // anotado o schema por questão didática
-@Getter
-@Setter
+@Getter // Gera getter em tempo de compilação com LOMBOK
+@Setter // Gera setter em tempo de compilação com LOMBOK
 public class Autor {
 
     // Mapeamento opcional do Column
@@ -27,4 +28,7 @@ public class Autor {
 
     @Column(name = "nacionalidade", length = 50, nullable = false)
     private String nacionalidade;
+
+    @OneToMany(mappedBy = "autor") // Um autor para muitos livros
+    private List<Livro> livros;
 }
