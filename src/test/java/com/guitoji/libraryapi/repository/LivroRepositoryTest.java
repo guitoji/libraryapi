@@ -8,6 +8,7 @@ import com.guitoji.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -59,7 +60,7 @@ class LivroRepositoryTest {
         livro.setAutor(autor);
         repository.save(livro);
     }
-    
+
     @Test
     public void contagemDeLivrosTest() {
         System.out.println("Contagem de Livros: " + repository.count());
@@ -101,6 +102,20 @@ class LivroRepositoryTest {
             Livro livro = livroParaDeletar.get();
             repository.delete(livro);
             System.out.println("Livro " + livro.getTitulo() + " deletado!");
+        }
+    }
+
+    @Test
+    @Transactional
+    public void buscarLivroTest() {
+        UUID id = UUID.fromString("1c8e1a47-0a92-48c0-b4da-c9b13f2cab69");
+        Livro livro = repository.findById(id).orElse(null);
+
+        if (livro != null) {
+            System.out.println("Livro: ");
+            System.out.println(livro.getTitulo());
+            System.out.println("Autor: ");
+            System.out.println(livro.getAutor().getNome());
         }
     }
 }
