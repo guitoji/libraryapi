@@ -53,7 +53,7 @@ public class AutorRepositoryTest {
     }
 
     @Test
-    public void contagemTest() {
+    public void contagemDeAutoresTest() {
         System.out.println("Contagem de autores: " + repository.count());
     }
 
@@ -73,12 +73,12 @@ public class AutorRepositoryTest {
     public void deleteTest() {
         var id = UUID.fromString("137d2a21-1e9f-4877-ae9a-b005ea984b48");
 
-        Optional<Autor> possivelAutor = repository.findById(id);
+        Optional<Autor> autorParaDeletar = repository.findById(id);
 
-        if ((possivelAutor.isPresent())) {
-            Autor autor = possivelAutor.get();
+        if ((autorParaDeletar.isPresent())) {
+            Autor autor = autorParaDeletar.get();
             repository.delete(autor);
-            System.out.println("Autor " + possivelAutor.get().getNome() + " deletado!");
+            System.out.println("Autor " + autor.getNome() + " deletado!");
         }
     }
 }
