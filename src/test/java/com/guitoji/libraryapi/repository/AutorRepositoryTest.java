@@ -1,11 +1,15 @@
 package com.guitoji.libraryapi.repository;
 
 import com.guitoji.libraryapi.Repository.AutorRepository;
+import com.guitoji.libraryapi.Repository.LivroRepository;
 import com.guitoji.libraryapi.model.Autor;
+import com.guitoji.libraryapi.model.GeneroLivro;
+import com.guitoji.libraryapi.model.Livro;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,9 @@ public class AutorRepositoryTest {
 
     @Autowired
     AutorRepository repository;
+
+    @Autowired
+    LivroRepository livroRepository;
 
     @Test
     public void salvarTest() {
@@ -59,7 +66,7 @@ public class AutorRepositoryTest {
 
     @Test
     public void deletePorIdTest() {
-        var id = UUID.fromString("bbda98b8-e7b1-418d-b468-df093039ab2d");
+        var id = UUID.fromString("d9ef40ba-99ca-41c1-9c64-59a597436adf");
 
         Optional<Autor> possivelAutor = repository.findById(id);
 
@@ -80,5 +87,36 @@ public class AutorRepositoryTest {
             repository.delete(autor);
             System.out.println("Autor " + autor.getNome() + " deletado!");
         }
+    }
+
+    @Test
+    public void salvarAutorComLivrosTest() {
+        Autor autor = new Autor();
+        autor.setNome("Sarah J. Maas");
+        autor.setNacionalidade("Norte-Americana");
+        autor.setDataNascimento(LocalDate.of(1986, 3, 5));
+
+        Livro livro1 = new Livro();
+        livro1.setIsbn("9788501401380");
+        livro1.setPreco(BigDecimal.valueOf(89.90));
+        livro1.setGenero(GeneroLivro.FANTASIA);
+        livro1.setTitulo("Trono de Vidro - Vol 1");
+        livro1.setDataPublicacao(LocalDate.of(2012, 8, 2));
+        livro1.setAutor(autor);
+
+        Livro livro2 = new Livro();
+        livro2.setIsbn("9788501060716");
+        livro2.setPreco(BigDecimal.valueOf(89.90));
+        livro2.setGenero(GeneroLivro.FANTASIA);
+        livro2.setTitulo("Trono de Vidro: Coroa da Meia Noite - Vol 2");
+        livro2.setDataPublicacao(LocalDate.of(2014, 7, 18));
+        livro2.setAutor(autor);
+
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro1);
+        autor.getLivros().add(livro2);
+
+        repository.save(autor);
+        livroRepository.saveAll(autor.getLivros());
     }
 }
