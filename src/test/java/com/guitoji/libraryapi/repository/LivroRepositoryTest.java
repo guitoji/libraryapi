@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -117,5 +118,41 @@ class LivroRepositoryTest {
             System.out.println("Autor: ");
             System.out.println(livro.getAutor().getNome());
         }
+    }
+
+    @Test
+    public void pesquisaPorTituloTest() {
+        List<Livro> lista = repository.findByTitulo("Senhor dos Anéis - A Sociedade do Anel");
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorIsbnTest() {
+        Livro livro = repository.findByIsbn("9788501401380");
+        System.out.println(livro);
+    }
+
+    @Test
+    public void pesquisaPorGeneroTest() {
+        List<Livro> lista = repository.findByGenero(GeneroLivro.valueOf("Fantasia".toUpperCase()));
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorTituloEPrecoTest() {
+        List<Livro> lista = repository.findByTituloAndPreco("Senhor dos Anéis - A Sociedade do Anel", BigDecimal.valueOf(100));
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorDataPublicacaoTest() {
+        List<Livro> lista = repository.findByDataPublicacao(LocalDate.of(1954, 7, 29));
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorTituloOuIsbn() {
+        List<Livro> lista = repository.findByTituloOrIsbn("Senhor dos Anéis - A Sociedade do Anel", "9780618260515");
+        lista.forEach(System.out::println);
     }
 }
