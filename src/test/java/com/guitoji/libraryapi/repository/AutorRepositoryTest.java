@@ -119,4 +119,16 @@ public class AutorRepositoryTest {
         repository.save(autor);
         livroRepository.saveAll(autor.getLivros());
     }
+
+    @Test
+
+    public void listarLivrosAutorTest() {
+        UUID id = UUID.fromString("1159b411-b362-4c1c-b693-6bd345fe2b5c");
+        var autor = repository.findById(id).get();
+
+        List<Livro> livrosLista = livroRepository.findByAutor(autor);
+        autor.setLivros(livrosLista);
+
+        autor.getLivros().forEach(System.out::println);
+    }
 }

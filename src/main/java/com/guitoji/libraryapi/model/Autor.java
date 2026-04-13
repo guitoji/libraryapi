@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "autor", schema = "public") // anotado o schema por questão didática
 @Getter // Gera getter em tempo de compilação com LOMBOK
 @Setter // Gera setter em tempo de compilação com LOMBOK
-@ToString // Gera toString
+@ToString(exclude = "livros") // Gera toString
 public class Autor {
 
     // Mapeamento opcional do Column
