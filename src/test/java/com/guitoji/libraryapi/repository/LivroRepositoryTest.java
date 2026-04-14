@@ -155,4 +155,34 @@ class LivroRepositoryTest {
         List<Livro> lista = repository.findByTituloOrIsbn("Senhor dos Anéis - A Sociedade do Anel", "9780618260515");
         lista.forEach(System.out::println);
     }
+
+    @Test
+    public void listarLivrosComQueryJPQL() {
+        var resultado = repository.listarTodosOrdenadorPorTituloAndPreco();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarAutoresDosLivros() {
+        var resultado = repository.listarAutoresDosLivros();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarTitulosDiferentes() {
+        var resultado = repository.listarNomesDiferentesLivros();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarGenerosDeAutoresBritânicos() {
+        var resultado = repository.listarGeneroAutoresBritanicos();
+        resultado.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarLivrosDeAutoresAmericanos() {
+        var resultado = repository.listarTitulosDeAutoresAmericanos();
+        resultado.forEach(System.out::println);
+    }
 }

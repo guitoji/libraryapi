@@ -4,6 +4,7 @@ import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -33,4 +34,30 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     //select * from livro where titulo = ? or isbn = ?;
     List<Livro> findByTituloOrIsbn(String titulo, String isbn);
+
+    //select * from livro where data_publicacao between ? and ?;
+    List<Livro> findByDataPublicacaoBetween(LocalDate inicio, LocalDate fim);
+
+    //JPQL - referência as entidades e as propriedades
+    //select l.* from livro as l order by l.titulo, l.preco
+    @Query("select l from Livro as l order by l.titulo, l.preco")
+    List<Livro> listarTodosOrdenadorPorTituloAndPreco();
+
+    //select a.* from livro l join autor a on a.id = l.id_autor
+    @Query("select a from Livro l join l.autor a")
+    List<Autor> listarAutoresDosLivros();
+
+    //select distinct l.titulo from livro l
+    @Query("select distinct l.titulo from Livro l")
+    List<String> listarNomesDiferentesLivros();
+
+    @Query("""
+        select l.genero from Livro l join l.autor a where a.nacionalidade = 'Britânico' order by l.genero
+    """)
+    List<String> listarGeneroAutoresBritanicos();
+
+    @Query("""
+        select l.titulo from Livro l join l.autor a where a.nacionalidade = 'Americano' order by l.titulo
+    """)
+    List<String> listarTitulosDeAutoresAmericanos();
 }
