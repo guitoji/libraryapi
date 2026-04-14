@@ -132,11 +132,6 @@ class LivroRepositoryTest {
         System.out.println(livro);
     }
 
-    @Test
-    public void pesquisaPorGeneroTest() {
-        List<Livro> lista = repository.findByGenero(GeneroLivro.valueOf("Fantasia".toUpperCase()));
-        lista.forEach(System.out::println);
-    }
 
     @Test
     public void pesquisaPorTituloEPrecoTest() {
@@ -184,5 +179,17 @@ class LivroRepositoryTest {
     public void listarLivrosDeAutoresAmericanos() {
         var resultado = repository.listarTitulosDeAutoresAmericanos();
         resultado.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorGeneroTest() {
+        List<Livro> lista = repository.findByGenero(GeneroLivro.valueOf("Fantasia".toUpperCase()));
+        lista.forEach(System.out::println);
+    }
+
+    @Test
+    public void pesquisaPorGeneroPositionalParamTest() {
+        List<Livro> lista = repository.findByGeneroPositionalParameters(GeneroLivro.valueOf("Fantasia".toUpperCase()));
+        lista.forEach(System.out::println);
     }
 }

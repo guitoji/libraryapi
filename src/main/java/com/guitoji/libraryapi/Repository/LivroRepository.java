@@ -5,6 +5,7 @@ import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,9 +23,6 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     //select * from livro where isbn = ?;
     Livro findByIsbn(String isbn);
-
-    //select * from livro where genero = ?;
-    List<Livro> findByGenero(GeneroLivro generoLivro);
 
     //select * from livro where titulo = ? and preco = ?;
     List<Livro> findByTituloAndPreco(String titulo, BigDecimal preco);
@@ -60,4 +58,11 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
         select l.titulo from Livro l join l.autor a where a.nacionalidade = 'Americano' order by l.titulo
     """)
     List<String> listarTitulosDeAutoresAmericanos();
+
+    //named parameters -> parametros nomeados
+    @Query("select l from Livro l where l.genero = :genero")
+    List<Livro> findByGenero(@Param("genero") GeneroLivro generoLivro);
+
+    @Query("select l from Livro l where l.genero = ?1")
+    List<Livro> findByGeneroPositionalParameters(GeneroLivro generoLivro);
 }
