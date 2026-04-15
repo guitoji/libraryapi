@@ -192,4 +192,9 @@ class LivroRepositoryTest {
         List<Livro> lista = repository.findByGeneroPositionalParameters(GeneroLivro.valueOf("Fantasia".toUpperCase()));
         lista.forEach(System.out::println);
     }
+
+    @Test
+    public void deletePorTituloTest() {
+        repository.deleteByTitulo("Trono de Vidro: Coroa da Meia Noite - Vol 2");
+    }
 }

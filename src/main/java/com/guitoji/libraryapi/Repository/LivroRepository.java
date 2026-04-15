@@ -4,8 +4,10 @@ import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -65,4 +67,9 @@ public interface LivroRepository extends JpaRepository<Livro, UUID> {
 
     @Query("select l from Livro l where l.genero = ?1")
     List<Livro> findByGeneroPositionalParameters(GeneroLivro generoLivro);
+
+    @Modifying //Declarando que séra uma query que irá modificar a base de dados
+    @Transactional
+    @Query("delete from Livro where titulo = ?1")
+    void deleteByTitulo(String titulo);
 }
