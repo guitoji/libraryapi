@@ -1,7 +1,5 @@
 package com.guitoji.libraryapi.repository;
 
-import com.guitoji.libraryapi.Repository.AutorRepository;
-import com.guitoji.libraryapi.Repository.LivroRepository;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;

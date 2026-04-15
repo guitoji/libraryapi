@@ -1,4 +1,4 @@
-package com.guitoji.libraryapi.Repository;
+package com.guitoji.libraryapi.repository;
 
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.model.GeneroLivro;
