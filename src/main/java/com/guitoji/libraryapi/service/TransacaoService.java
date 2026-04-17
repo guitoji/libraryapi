@@ -37,9 +37,9 @@ public class TransacaoService {
 
         // salva o autor
         Autor autor = new Autor();
-        autor.setNome("Teste Francisco");
-        autor.setNacionalidade("Brasileira");
-        autor.setDataNascimento(LocalDate.of(1988, 11, 22));
+        autor.setNome("Jamir");
+        autor.setNacionalidade("Brasileiro");
+        autor.setDataNascimento(LocalDate.of(1990, 6, 25));
 
         autorRepository.save(autor); // utilizar saveAndFlush somente se necessário
 
@@ -48,8 +48,8 @@ public class TransacaoService {
         livro.setIsbn("9236455514977");
         livro.setPreco(BigDecimal.valueOf(20));
         livro.setGenero(GeneroLivro.BIOGRAFIA);
-        livro.setTitulo("Teste livro do Francisco");
-        livro.setDataPublicacao(LocalDate.of(2022, 7, 11));
+        livro.setTitulo("Teste livro do Jamir");
+        livro.setDataPublicacao(LocalDate.of(2025, 3, 9));
 
         livro.setAutor(autor);
         livroRepository.save(livro); // utilizar saveAndFlush somente se necessário
