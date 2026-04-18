@@ -10,6 +10,6 @@ spring:
     show-sql: true
 #    Comandos ddl geralmente não são usados em produção! Existe uma preferência pelo uso de script SQL.
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate.format_sql: true

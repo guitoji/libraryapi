@@ -32,7 +32,7 @@ public class AutorController {
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("{id}")
+                .path("/{id}")
                 .buildAndExpand(autorEntidade.getId())
                 .toUri();
 
