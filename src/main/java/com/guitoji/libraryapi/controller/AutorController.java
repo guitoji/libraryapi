@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/autores")
@@ -65,5 +64,22 @@ public class AutorController {
 
         service.deletarAutor(autor.get());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<AutorDTO>> filtrar(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
+
+        List<Autor> resultado = service.pesquisa(nome, nacionalidade);
+        List<AutorDTO> lista = resultado
+                .stream()
+                .map(autor -> new AutorDTO(
+                        autor.getId(),
+                        autor.getNome(),
+                        autor.getDataNascimento(),
+                        autor.getNacionalidade()))
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 }
