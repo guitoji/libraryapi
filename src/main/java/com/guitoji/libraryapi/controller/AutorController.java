@@ -3,6 +3,7 @@ package com.guitoji.libraryapi.controller;
 import com.guitoji.libraryapi.controller.dto.AutorDTO;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.service.AutorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -51,5 +52,18 @@ public class AutorController {
             return ResponseEntity.ok(dto);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
+        UUID idAutor = UUID.fromString(id);
+        Optional<Autor> autor = service.obterPorId(idAutor);
+
+        if (autor.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        service.deletarAutor(autor.get());
+        return ResponseEntity.noContent().build();
     }
 }
