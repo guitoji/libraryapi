@@ -66,7 +66,7 @@ class LivroRepositoryTest {
     }
 
     @Test
-    public void aualizarAutorDolivroTest() {
+    public void atualizarAutorDolivroTest() {
         UUID id = UUID.fromString("b298adf6-7878-4fba-9751-16321167d136");
         var livroParaAtualizar = repository.findById(id).orElse(null);
 
