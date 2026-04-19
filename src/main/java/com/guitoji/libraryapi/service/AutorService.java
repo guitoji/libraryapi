@@ -1,15 +1,10 @@
 package com.guitoji.libraryapi.service;
 
-import com.guitoji.libraryapi.controller.dto.AutorDTO;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.repository.AutorRepository;
-import org.springframework.http.ResponseEntity;
+import com.guitoji.libraryapi.validator.AutorValidador;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,8 +14,11 @@ public class AutorService {
 
     private final AutorRepository repository;
 
-    public AutorService(AutorRepository Repository) {
-        repository = Repository;
+    private final AutorValidador validador;
+
+    public AutorService(AutorRepository Repository, AutorValidador validador) {
+        this.repository = Repository;
+        this.validador = validador;
     }
 
     public Autor salvar(Autor autor) {
