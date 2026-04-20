@@ -2,6 +2,7 @@ package com.guitoji.libraryapi.controller;
 
 import com.guitoji.libraryapi.controller.dto.AutorDTO;
 import com.guitoji.libraryapi.controller.dto.ErroResposta;
+import com.guitoji.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.guitoji.libraryapi.exceptions.RegistroDuplicadoException;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.service.AutorService;
@@ -61,16 +62,21 @@ public class AutorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable String id) {
-        UUID idAutor = UUID.fromString(id);
-        Optional<Autor> autor = service.obterPorId(idAutor);
+    public ResponseEntity<Object> deletar(@PathVariable String id) {
+        try {
+            UUID idAutor = UUID.fromString(id);
+            Optional<Autor> autor = service.obterPorId(idAutor);
 
-        if (autor.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            if (autor.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            service.deletarAutor(autor.get());
+            return ResponseEntity.noContent().build();
+        } catch (OperacaoNaoPermitidaException e) {
+            var erroDTO = ErroResposta.respostaPadrao(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
         }
-
-        service.deletarAutor(autor.get());
-        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()

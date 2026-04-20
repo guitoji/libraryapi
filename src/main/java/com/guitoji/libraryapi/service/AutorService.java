@@ -1,7 +1,9 @@
 package com.guitoji.libraryapi.service;
 
+import com.guitoji.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.repository.AutorRepository;
+import com.guitoji.libraryapi.repository.LivroRepository;
 import com.guitoji.libraryapi.validator.AutorValidator;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +14,19 @@ import java.util.UUID;
 @Service
 public class AutorService {
 
-    private final AutorRepository repository;
-
+    private final AutorRepository autorRepository;
+    private final LivroRepository livroRepository;
     private final AutorValidator validator;
 
-    public AutorService(AutorRepository Repository, AutorValidator validator) {
-        this.repository = Repository;
+    public AutorService(AutorRepository autorRepository, AutorValidator validator, LivroRepository livroRepository) {
+        this.autorRepository = autorRepository;
         this.validator = validator;
+        this.livroRepository = livroRepository;
     }
 
     public Autor salvar(Autor autor) {
         validator.validar(autor);
-        return repository.save(autor);
+        return autorRepository.save(autor);
     }
 
     public void atualizar(Autor autor) {
@@ -31,32 +34,40 @@ public class AutorService {
             throw new IllegalArgumentException("Para atualizar, é necessário que o autor já esteja salvo na base.");
         }
         validator.validar(autor);
-        repository.save(autor);
+        autorRepository.save(autor);
     }
 
     public Optional<Autor> obterPorId(UUID id) {
-        return repository.findById(id);
+        return autorRepository.findById(id);
     }
 
     public void deletarAutor(Autor autor) {
-        repository.delete(autor);
+        if (possuiLivro(autor)) {
+            throw new OperacaoNaoPermitidaException("Ação não permitida: O Autor possui livros cadastrados!");
+        }
+
+        autorRepository.delete(autor);
     }
 
     public List<Autor> pesquisa(String nome, String nacionalidade) {
         //Irei refatorar este algoritmo após algumas aulas, pois não é um metodo elegante
         if (nome != null && nacionalidade != null) {
-            return repository.findByNomeAndNacionalidade(nome, nacionalidade);
+            return autorRepository.findByNomeAndNacionalidade(nome, nacionalidade);
         }
 
         if (nome != null) {
-            return repository.findByNome(nome);
+            return autorRepository.findByNome(nome);
         }
 
         if (nacionalidade != null) {
-            return repository.findByNacionalidade(nacionalidade);
+            return autorRepository.findByNacionalidade(nacionalidade);
         }
 
-        return repository.findAll();
+        return autorRepository.findAll();
+    }
+
+    public boolean possuiLivro(Autor autor) {
+        return livroRepository.existsByAutor(autor);
     }
 }
 

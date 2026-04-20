@@ -26,14 +26,14 @@ class LivroRepositoryTest {
     @Test
     public void salvarTest() {
         Livro livro = new Livro();
-        livro.setIsbn("9780618260515");
+        livro.setIsbn("9780618275448");
         livro.setPreco(BigDecimal.valueOf(100));
         livro.setGenero(GeneroLivro.FANTASIA);
-        livro.setTitulo("Senhor dos Anéis: A Sociedade do Anel");
-        livro.setDataPublicacao(LocalDate.of(1954, 7, 29));
+        livro.setTitulo("Rei macaco: A queda do Rei");
+        livro.setDataPublicacao(LocalDate.of(2020, 7, 29));
 
         Autor autor = autorRepository
-                .findById(UUID.fromString("6a1a9fd8-2800-4b5d-b0c2-1da32f694920"))
+                .findById(UUID.fromString("cd34c396-0a85-4db6-88a9-49f2a5abdbf4"))
                 .orElse(null);
 
         livro.setAutor(autor);
