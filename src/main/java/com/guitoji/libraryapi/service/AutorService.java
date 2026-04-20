@@ -2,7 +2,7 @@ package com.guitoji.libraryapi.service;
 
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.repository.AutorRepository;
-import com.guitoji.libraryapi.validator.AutorValidador;
+import com.guitoji.libraryapi.validator.AutorValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +14,15 @@ public class AutorService {
 
     private final AutorRepository repository;
 
-    private final AutorValidador validador;
+    private final AutorValidator validator;
 
-    public AutorService(AutorRepository Repository, AutorValidador validador) {
+    public AutorService(AutorRepository Repository, AutorValidator validator) {
         this.repository = Repository;
-        this.validador = validador;
+        this.validator = validator;
     }
 
     public Autor salvar(Autor autor) {
+        validator.validar(autor);
         return repository.save(autor);
     }
 
@@ -29,6 +30,7 @@ public class AutorService {
         if (autor.getId() == null) {
             throw new IllegalArgumentException("Para atualizar, é necessário que o autor já esteja salvo na base.");
         }
+        validator.validar(autor);
         repository.save(autor);
     }
 
