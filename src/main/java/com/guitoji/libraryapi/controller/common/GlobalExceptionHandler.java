@@ -15,13 +15,13 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.UNPROCESSABLE_CONTENT)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErroResposta handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrors = e.getFieldErrors();
         List<ErroCampo> listaErros = fieldErrors
                 .stream()
                 .map(fe -> new ErroCampo(fe.getField(), fe.getDefaultMessage()))
                 .toList();
-        return new ErroResposta(HttpStatus.UNPROCESSABLE_CONTENT.value(), "Erro validacao", listaErros);
+        return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro validacao", listaErros);
     }
 }
