@@ -2,6 +2,8 @@ package com.guitoji.libraryapi.controller.common;
 
 import com.guitoji.libraryapi.controller.dto.ErroCampo;
 import com.guitoji.libraryapi.controller.dto.ErroResposta;
+import com.guitoji.libraryapi.exceptions.OperacaoNaoPermitidaException;
+import com.guitoji.libraryapi.exceptions.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,5 +25,17 @@ public class GlobalExceptionHandler {
                 .map(fe -> new ErroCampo(fe.getField(), fe.getDefaultMessage()))
                 .toList();
         return new ErroResposta(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro validacao", listaErros);
+    }
+
+    @ExceptionHandler(RegistroDuplicadoException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErroResposta handleRegistroDuplicadoException(RegistroDuplicadoException e) {
+        return ErroResposta.conflito(e.getMessage());
+    }
+
+    @ExceptionHandler(OperacaoNaoPermitidaException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErroResposta handleOperacaoNaoPermitidaException(OperacaoNaoPermitidaException e) {
+        return ErroResposta.respostaPadrao(e.getMessage());
     }
 }
