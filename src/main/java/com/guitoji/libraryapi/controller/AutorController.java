@@ -47,20 +47,15 @@ public class AutorController implements GenericController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletar(@PathVariable String id) {
-        try {
-            UUID idAutor = UUID.fromString(id);
-            Optional<Autor> autor = service.obterPorId(idAutor);
+        UUID idAutor = UUID.fromString(id);
+        Optional<Autor> autor = service.obterPorId(idAutor);
 
-            if (autor.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            service.deletarAutor(autor.get());
-            return ResponseEntity.noContent().build();
-        } catch (OperacaoNaoPermitidaException e) {
-            var erroDTO = ErroResposta.respostaPadrao(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        if (autor.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+
+        service.deletarAutor(autor.get());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()

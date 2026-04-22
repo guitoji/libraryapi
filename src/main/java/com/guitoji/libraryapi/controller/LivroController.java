@@ -28,7 +28,7 @@ public class LivroController implements GenericController {
     @PostMapping
     public ResponseEntity<Object> salvar(@RequestBody @Valid CadastroLivroDTO dto) {
         Livro livro = mapper.toEntity(dto);
-        service.salvarLivro(livro);
+        service.salvar(livro);
         URI location = gerarHeaderLocation(livro.getId());
         return ResponseEntity.created(location).build();
     }
@@ -41,5 +41,18 @@ public class LivroController implements GenericController {
                     ResultadoPesquisaLivroDTO dto = mapper.toDto(livro);
                     return ResponseEntity.ok(dto);
                 }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable String id) {
+        UUID idLivro = UUID.fromString(id);
+        Optional<Livro> livro = service.obterPorId(idLivro);
+
+        if (livro.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        service.deletarLivro(livro.get());
+        return ResponseEntity.noContent().build();
     }
 }

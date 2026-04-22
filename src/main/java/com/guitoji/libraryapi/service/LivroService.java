@@ -14,11 +14,15 @@ public class LivroService {
 
     private final LivroRepository repository;
 
-    public Livro salvarLivro(Livro livro) {
+    public Livro salvar(Livro livro) {
         return repository.save(livro);
     }
 
     public Optional<Livro> obterPorId(UUID id) {
         return repository.findById(id);
+    }
+
+    public void deletarLivro(Livro livro) {
+        repository.delete(livro);
     }
 }
