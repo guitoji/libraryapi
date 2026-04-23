@@ -1,10 +1,7 @@
 package com.guitoji.libraryapi.controller;
 
 import com.guitoji.libraryapi.controller.dto.AutorDTO;
-import com.guitoji.libraryapi.controller.dto.ErroResposta;
 import com.guitoji.libraryapi.controller.mappers.AutorMapper;
-import com.guitoji.libraryapi.exceptions.OperacaoNaoPermitidaException;
-import com.guitoji.libraryapi.exceptions.RegistroDuplicadoException;
 import com.guitoji.libraryapi.model.Autor;
 import com.guitoji.libraryapi.service.AutorService;
 import jakarta.validation.Valid;

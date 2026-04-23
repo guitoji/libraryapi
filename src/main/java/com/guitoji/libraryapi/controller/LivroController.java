@@ -1,11 +1,9 @@
 package com.guitoji.libraryapi.controller;
 
-import com.guitoji.libraryapi.controller.dto.AutorDTO;
 import com.guitoji.libraryapi.controller.dto.CadastroLivroDTO;
-import com.guitoji.libraryapi.controller.dto.ErroResposta;
 import com.guitoji.libraryapi.controller.dto.ResultadoPesquisaLivroDTO;
 import com.guitoji.libraryapi.controller.mappers.LivroMapper;
-import com.guitoji.libraryapi.exceptions.RegistroDuplicadoException;
+import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import com.guitoji.libraryapi.service.LivroService;
 import jakarta.validation.Valid;
@@ -14,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -51,5 +49,26 @@ public class LivroController implements GenericController {
                     service.deletarLivro(livro);
                     return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ResultadoPesquisaLivroDTO>> filtrar(
+            @RequestParam(value = "isbn", required = false)
+            String isbn,
+            @RequestParam(value = "titulo", required = false)
+            String titulo,
+            @RequestParam(value = "nome-autor", required = false)
+            String nomeAutor,
+            @RequestParam(value = "genero", required = false)
+            GeneroLivro genero,
+            @RequestParam(value = "ano-publicacao", required = false)
+            Integer anoPublicacao
+    ) {
+        var resultado = service.pesquisa(isbn, titulo, nomeAutor, genero, anoPublicacao);
+        var lista = resultado
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+        return ResponseEntity.ok(lista);
     }
 }
