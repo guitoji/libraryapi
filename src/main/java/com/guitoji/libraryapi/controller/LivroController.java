@@ -11,7 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +31,24 @@ public class LivroController implements GenericController {
         service.salvar(livro);
         URI location = gerarHeaderLocation(livro.getId());
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> atualizar(@PathVariable String id, @RequestBody @Valid CadastroLivroDTO dto) {
+        return service.obterPorId(UUID.fromString(id))
+                .map(livro -> {
+                    Livro entidadeAuxiliar = mapper.toEntity(dto);
+
+                    livro.setIsbn(entidadeAuxiliar.getIsbn());
+                    livro.setTitulo(entidadeAuxiliar.getTitulo());
+                    livro.setDataPublicacao(entidadeAuxiliar.getDataPublicacao());
+                    livro.setGenero(entidadeAuxiliar.getGenero());
+                    livro.setPreco(entidadeAuxiliar.getPreco());
+                    livro.setAutor(entidadeAuxiliar.getAutor());
+
+                    service.atualizar(livro);
+                    return ResponseEntity.noContent().build();
+                }).orElseGet(() ->  ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}")

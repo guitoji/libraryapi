@@ -68,20 +68,16 @@ public class AutorController implements GenericController {
 
     @PutMapping("{id}")
     public ResponseEntity<Object> atualizar(@PathVariable String id, @RequestBody @Valid AutorDTO dto) {
-        UUID idAutor = UUID.fromString(id);
-        Optional<Autor> autorOptional = service.obterPorId(idAutor);
+        return service.obterPorId(UUID.fromString(id))
+                .map(autor -> {
+                    Autor entidadeAuxiliar = mapper.toEntity(dto);
 
-        if (autorOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+                    autor.setNome(dto.nome());
+                    autor.setDataNascimento(dto.dataNascimento());
+                    autor.setNacionalidade(dto.nacionalidade());
 
-        var autor = autorOptional.get();
-        autor.setNome(dto.nome());
-        autor.setDataNascimento(dto.dataNascimento());
-        autor.setNacionalidade(dto.nacionalidade());
-
-        service.atualizar(autor);
-
-        return ResponseEntity.noContent().build();
+                    service.atualizar(autor);
+                    return ResponseEntity.noContent().build();
+                }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
