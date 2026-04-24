@@ -3,6 +3,7 @@ package com.guitoji.libraryapi.service;
 import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import com.guitoji.libraryapi.repository.LivroRepository;
+import com.guitoji.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,10 @@ import static com.guitoji.libraryapi.repository.specs.LivroSpecs.*;
 public class LivroService {
 
     private final LivroRepository repository;
+    private final LivroValidator validator;
 
     public Livro salvar(Livro livro) {
+        validator.validar(livro);
         return repository.save(livro);
     }
 
@@ -27,6 +30,7 @@ public class LivroService {
         if (livro.getId() == null) {
             throw new IllegalArgumentException("Para atualizar, é necessário que o livro já esteja salvo na base.");
         }
+        validator.validar(livro);
         repository.save(livro);
     }
 
