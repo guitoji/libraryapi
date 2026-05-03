@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Library Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f4f0;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border: 0.5px solid rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 2.5rem 2.25rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+        }
+
+        .login-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-icon svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #e8d5b7;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: #888780;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #888780;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .input-group-text {
+            background: #f5f4f0;
+            border: 0.5px solid rgba(0,0,0,0.15);
+            border-right: none;
+            color: #888780;
+            border-radius: 10px 0 0 10px;
+            padding: 0.65rem 0.85rem;
+        }
+
+        .form-control {
+            border: 0.5px solid rgba(0,0,0,0.15);
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+            padding: 0.65rem 1rem;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f4f0;
+            color: #1a1a2e;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #534AB7;
+            box-shadow: 0 0 0 3px rgba(83, 74, 183, 0.12);
+            background: #ffffff;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #b4b2a9;
+            font-weight: 300;
+        }
+
+        .input-group:focus-within .input-group-text {
+            border-color: #534AB7;
+            background: #ffffff;
+        }
+
+        .forgot-link {
+            font-size: 13px;
+            color: #534AB7;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            color: #3C3489;
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            background: #1a1a2e;
+            color: #e8d5b7;
+            border: none;
+            border-radius: 10px;
+            padding: 0.72rem 1rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-login:hover {
+            background: #2a2a4a;
+            color: #e8d5b7;
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active { transform: scale(0.98); }
+
+        .divider-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 0.5px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .divider-text {
+            font-size: 12px;
+            color: #b4b2a9;
+        }
+
+        .btn-social {
+            background: #f5f4f0;
+            border: 0.5px solid rgba(0,0,0,0.12);
+            border-radius: 10px;
+            padding: 0.6rem 1rem;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            color: #1a1a2e;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .btn-social:hover {
+            background: #ffffff;
+            border-color: rgba(0,0,0,0.22);
+        }
+
+        .form-check-input:checked {
+            background-color: #534AB7;
+            border-color: #534AB7;
+        }
+
+        .form-check-label {
+            font-size: 13px;
+            color: #888780;
+        }
+
+        .register-row {
+            text-align: center;
+            font-size: 13px;
+            color: #888780;
+            margin-top: 1.5rem;
+        }
+
+        .register-link {
+            color: #534AB7;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .register-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<form method="post" th:action="@{/login}">
+    <div class="login-card">
+
+        <div class="login-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <span class="brand-name">Library Web</span>
+        </div>
+
+        <h1 class="login-title">Bem-vindo de volta</h1>
+        <p class="login-subtitle">Acesse sua conta para continuar</p>
+
+        <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <div class="input-group">
+            <span class="input-group-text">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Digite seu usuário">
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Senha</label>
+            <div class="input-group">
+            <span class="input-group-text">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="••••••••">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-login">Entrar</button>
+    </div>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
