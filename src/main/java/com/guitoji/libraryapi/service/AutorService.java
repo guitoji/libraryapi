@@ -2,8 +2,10 @@ package com.guitoji.libraryapi.service;
 
 import com.guitoji.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.guitoji.libraryapi.model.Autor;
+import com.guitoji.libraryapi.model.Usuario;
 import com.guitoji.libraryapi.repository.AutorRepository;
 import com.guitoji.libraryapi.repository.LivroRepository;
+import com.guitoji.libraryapi.security.SecurityService;
 import com.guitoji.libraryapi.validator.AutorValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
@@ -21,9 +23,11 @@ public class AutorService {
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
     private final AutorValidator validator;
+    private final SecurityService securityService;
 
     public Autor salvar(Autor autor) {
         validator.validar(autor);
+        autor.setUsuario(securityService.obterUsuarioLogado());
         return autorRepository.save(autor);
     }
 

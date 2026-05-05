@@ -3,6 +3,7 @@ package com.guitoji.libraryapi.service;
 import com.guitoji.libraryapi.model.GeneroLivro;
 import com.guitoji.libraryapi.model.Livro;
 import com.guitoji.libraryapi.repository.LivroRepository;
+import com.guitoji.libraryapi.security.SecurityService;
 import com.guitoji.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,9 +24,11 @@ public class LivroService {
 
     private final LivroRepository repository;
     private final LivroValidator validator;
+    private final SecurityService securityService;
 
     public Livro salvar(Livro livro) {
         validator.validar(livro);
+        livro.setUsuario(securityService.obterUsuarioLogado());
         return repository.save(livro);
     }
 
